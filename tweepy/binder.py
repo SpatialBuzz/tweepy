@@ -89,6 +89,12 @@ def bind_api(**config):
             self._reset_time = None
 
         def build_parameters(self, args, kwargs):
+            # SB add fix from https://github.com/do-n-khanh/tweepy/commit/c978749edb944394bd412922d0eb30170e0598bf
+            # referenced from https://github.com/tweepy/tweepy/issues/1081
+            if '/direct_messages/events/new.json' in self.path:
+                args = ()
+                kwargs = {}
+
             self.session.params = {}
             for idx, arg in enumerate(args):
                 if arg is None:
